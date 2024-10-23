@@ -26,25 +26,27 @@ echo "All packages have been installed."
 echo "Starting SSH..."
 sudo systemctl start sshd >> logs.txt
 sudo systemctl enable sshd >> logs.txt
-sudo systemctl status sshd 
+sudo systemctl status sshd >> logs.txt
+echo "SSH enabled!"
 
 # Install docker
 echo "Downloading and installing Docker..."
-sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-echo "Docker install complete"
+sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo >> logs.txt
+sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y >> logs.txt
+echo "Docker install complete!"
 
 # Start docker
 echo "Starting docker..."
 sudo systemctl start docker >> logs.txt
 sudo systemctl enable docker >> logs.txt
-sudo systemctl status docker
+sudo systemctl status docker >> logs.txt
+echo "Docker enabled!"
 
 # Run docker as a nonroot user
-# echo "Configuring docker to run docker as a nonroot user"
-# sudo usermod -aG docker $USER
-# newgrp docker
-# echo "Configuration complete"
+echo "Configuring docker to run docker as a nonroot user"
+sudo usermod -aG docker $USER
+newgrp docker
+echo "Configuration complete!"
 
 # Install and start portainer
 echo "Installing portainer..."
