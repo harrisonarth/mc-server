@@ -41,13 +41,13 @@ sudo systemctl enable docker >> logs.txt
 sudo systemctl status docker
 
 # Run docker as a nonroot user
-echo "Configuring docker to run docker as a nonroot user"
-sudo usermod -aG docker $USER
-newgrp docker
-echo "Configuration complete"
+# echo "Configuring docker to run docker as a nonroot user"
+# sudo usermod -aG docker $USER
+# newgrp docker
+# echo "Configuration complete"
 
 # Install and start portainer
 echo "Installing portainer..."
-docker volume create portainer_data
-docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:2.21.3
+sudo docker volume create portainer_data
+sudo docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:2.21.3
 echo "Portainer started."
