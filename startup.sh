@@ -7,18 +7,18 @@ echo "Update complete."
 
 # List of packages
 PACKAGES=(
-    "curl"
-    "vim"
+    "dnf-plugins-core"
+    "git"
     "ncurses"
     "openssh-server"
-    "git"
+    "vim"
 )
 
 # Install list of packages
 echo "Installing packages..."
 for package in "${PACKAGES[@]}"; do
     echo "Installing $package..."
-    sudo dnf install -y "$package" >> logs.txt
+    sudo dnf install -y "$package"
 done
 echo "All packages have been installed."
 
@@ -30,17 +30,15 @@ sudo systemctl status sshd
 
 # Install docker
 echo "Downloading and installing Docker..."
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh >> logs.txt
+sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+echo "Docker install complete"
 
 # Start docker
 echo "Starting docker..."
-sudo systemctl start docker.service >> logs.txt
-sudo systemctl enable docker.service >> logs.txt
-sudo systemctl status docker.service
-sudo systemctl start containerd.service
-sudo systemctl enable containerd.service >> logs.txt
-sudo systemctl status containerd.service >> logs.txt
+sudo systemctl start docker >> logs.txt
+sudo systemctl enable docker >> logs.txt
+sudo systemctl status docker
 
 # Run docker as a nonroot user
 echo "Configuring docker to run docker as a nonroot user"
